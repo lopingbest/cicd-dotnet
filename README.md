@@ -1,2 +1,2 @@
 # cicd-dotnet
-testercicd sdscd
+testercicd
