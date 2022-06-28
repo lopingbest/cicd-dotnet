@@ -6,18 +6,18 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, localrunner]
-#     runs-on: ubuntu-latest
+    runs-on: [self-hosted, localrunner, ubuntu-latest]
+#     runs-on: 
     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: docker login
       env:
         USER: ${{ secrets.DOCKER_USERNAME }}
         PASS: ${{ secrets.DOCKER_PASSWORD }}
       run: docker login -u "$USER" -p "$PASS"
     - name: env setup
-      run:  cp .env.sample .env
+      run: test -f .env || cp .env.sample .env
     - name: build images
       run: docker-compose up --build -d
     - name: docker push
