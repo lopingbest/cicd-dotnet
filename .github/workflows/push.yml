@@ -42,9 +42,6 @@ jobs:
     #       # pull images from remote
     #       docker-compose build --pull --no-cache
     #       docker-compose up -d --force-recreate
-    name: ssh-example
-    on: [push]
-    jobs:
       build:
         runs-on: ubuntu-latest
         steps:
