@@ -21,46 +21,24 @@ jobs:
       run: docker-compose build --no-cache
     - name: docker push
       run: docker-compose push
-
-    # deploy:
-    #   needs: build
-    #   runs-on: ubuntu-latest
-    #   steps:
-    # - name: Checkout
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.SSH_HOST }}
-    #     username: ${{ secrets.SSH_USER }}
-    #     password: ${{ secrets.SSH_PASSWORD }}
-    #     script: |
-    #       cd ~/dotnet-cd-2
-    #       # pull git updates
-    #       git pull origin master
-    #       # rm local images cache
-    #       docker rmi --force lopingbest/dotnet-cd-demo:latest || true
-    #       docker rmi --force lopingbest/dotnet-cd-demo-db:latest || true
-    #       # pull images from remote
-    #       docker-compose build --pull --no-cache
-    #       docker-compose up -d --force-recreate
-    deploy:
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v2
-      - name: Run a multi-line script
-        run: |
-          ssh-keygen -t ed25519 -f ~/.ssh/whatever -N ''
-          cat > ~/.ssh/config <<EOF
-            Host host.example
-            User $SSH_USER
-            HostName 127.0.0.1
-            IdentityFile ~/.ssh/whatever
-          EOF
-          echo -n 'from="127.0.0.1" ' | cat - ~/.ssh/whatever.pub > ~/.ssh/authorized_keys
-          echo "Before fixing permissions on authorized_keys, notice home directory is world read/write"
-          ls -la ~/.ssh
-          ssh -o 'StrictHostKeyChecking no' host.example id || echo "ssh failed as expected... trying to fix permissions"
-          chmod og-rw ~
-          echo "After fixing permissions on home folder ~ ..."
-          ls -la ~/.ssh
-          ssh -o 'StrictHostKeyChecking no' host.example id
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+  - name: Checkout
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ secrets.SSH_HOST }}
+      username: ${{ secrets.SSH_USER }}
+      password: ${{ secrets.SSH_PASSWORD }}
+      script: |
+        cd ~/dotnet-cd-2
+        # pull git updates
+        git pull origin master
+        # rm local images cache
+        docker rmi --force lopingbest/dotnet-cd-demo:latest || true
+        docker rmi --force lopingbest/dotnet-cd-demo-db:latest || true
+        # pull images from remote
+        docker-compose build --pull --no-cache
+        docker-compose up -d --force-recreate
