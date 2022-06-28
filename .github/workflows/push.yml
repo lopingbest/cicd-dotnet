@@ -8,8 +8,8 @@ jobs:
   build:
     runs-on: [self-hosted, localrunner]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+#     - name: Checkout
+#       uses: actions/checkout@v2
     - name: docker login
       env:
         USER: ${{ secrets.DOCKER_USERNAME }}
