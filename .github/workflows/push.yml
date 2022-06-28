@@ -14,10 +14,7 @@ jobs:
       env:
         USER: ${{ secrets.DOCKER_USERNAME }}
         PASS: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        sudo ./svc.sh stop
-        sudo ./svc.sh start
-        docker login -u "$USER" -p "$PASS"
+      run: docker login -u "$USER" -p "$PASS"
     - name: env setup
       run: test -f .env || cp .env.sample .env
     - name: build images
