@@ -9,8 +9,8 @@ jobs:
     runs-on: [self-hosted, localrunner]
 #     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+#     - name: Checkout
+#       uses: actions/checkout@v2
     - name: docker login
       env:
         USER: ${{ secrets.DOCKER_USERNAME }}
