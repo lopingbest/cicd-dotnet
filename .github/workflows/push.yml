@@ -18,7 +18,7 @@ jobs:
     - name: env setup
       run: test -f .env || cp .env.sample .env
     - name: build images
-      run: docker-compose build --no-cache
+      run: docker-compose up --build -d
     - name: docker push
       run: docker-compose push
 
