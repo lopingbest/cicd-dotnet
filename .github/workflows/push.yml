@@ -29,7 +29,7 @@ jobs:
       run: test -f .env || cp .env.sample .env
     - name: build images
       run: |
-        docker-compose down
+        docker system prune --all --volumes
         docker-compose up --build -d
     - name: docker push
       run: docker-compose push
