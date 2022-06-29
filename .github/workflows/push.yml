@@ -28,7 +28,9 @@ jobs:
     - name: env setup
       run: test -f .env || cp .env.sample .env
     - name: build images
-      run: docker-compose up --build -d
+      run: |
+        sudo service docker restart
+        docker-compose up --build -d
     - name: docker push
       run: docker-compose push
 
