@@ -28,7 +28,13 @@ jobs:
     - name: env setup
       run: test -f .env || cp .env.sample .env
     - name: build images
-      run: docker-compose up --build -d
+      run: |
+        sudo aa-status
+        sudo systemctl disable  apparmor.service --now
+        sudo service apparmor teardown
+        sudo aa-status
+        docker-compose down
+        docker-compose up --build -d
     - name: docker push
       run: docker-compose push
 
