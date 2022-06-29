@@ -29,8 +29,8 @@ jobs:
       run: test -f .env || cp .env.sample .env
     - name: build images
       run: |
-        docker-compose stop || true; docker-compose rm || true;
-        docker-compose up --build -d
+        sudo docker-compose stop || true; docker-compose rm || true;
+        sudo docker-compose up --build -d
     - name: docker push
       run: docker-compose push
 
